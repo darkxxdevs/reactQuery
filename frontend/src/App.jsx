@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
+// import useFetch from '../hooks/useFetch';
 import axios from 'axios';
 import './App.css';
 
 function App() {
   const [search, setSearch] = useState('');
-  // const [products, isError, loading] = customReactQuery('http://localhost:3000/api/products?search' + search);
+  // const [products, isError, loading] = useFetch('http://localhost:3000/api/products?search' + search);
 
   // if (loading) {
   //   return <h2>Loading......</h2>
@@ -27,6 +28,7 @@ function App() {
             signal : controller.signal
           });
           setProducts(response.data);
+          setError(false)
           setLoading(false);
         } catch (error) {
           setError(true);
@@ -34,6 +36,7 @@ function App() {
         }
       }
     )();
+    setError(false);
       // cleanup ==> code 
     return (()=>{
       controller.abort()
@@ -53,7 +56,7 @@ function App() {
       {/* Display loading message if loading */}
       {loading && (<h1>Loading....</h1>)}
       {/* Display error message if there's an error */}
-      {error && (<h1>Aww ... snap!!</h1>)}
+      {error && (<h1>error fetching data !</h1>)}
       {/* Display the number of products */}
       <h3>Number of products are : {products.length}</h3>
       <ol>
@@ -66,27 +69,3 @@ function App() {
 }
 
 export default App;
-
-// const customReactQuery = (url)=>{
-//   const [products , setProducts]=useState([])
-//   const [error , setError]=useState(false)
-//   const [loading , setLoading]=useState(false)
-
-//   useEffect(()=>{
-//     ;(
-//       async()=>{
-//         try {
-//           setError(false)
-//           setLoading(true)
-//           const response = await axios.get(url)
-//           setProducts(response.data)
-//           setLoading(false)
-//         } catch (error) {
-//           setError(true)
-//           setLoading(false)
-//         }
-//       }
-//     )()
-//   } , [])
-//   return [products , error ,loading]
-// }
